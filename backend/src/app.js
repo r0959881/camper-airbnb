@@ -1,18 +1,25 @@
+require('dotenv').config(); // Load environment variables
 const express = require("express");
 const cors = require("cors");
-const { createBooking } = require('./controllers/bookingController');  // Make sure the path is correct
-const { getBookings } = require('./controllers/bookingController'); 
+
+const camperRoutes = require('./routes/campers');
+const bookingRoutes = require('./routes/bookings');
+const authRoutes = require('./routes/authRoutes'); // Import auth routes
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Add this route to respond on GET /
-app.post('/bookings', createBooking); 
-app.get('/bookings', getBookings); 
+// Register routes
+app.use('/auth', authRoutes); // All routes in authRoutes.js will be prefixed with /auth
+app.use('/campers', camperRoutes);
+app.use('/bookings', bookingRoutes);
+
+// Default Route
 app.get("/", (req, res) => {
-  res.send(" Welcome to Camper Airbnb API!");
+  res.send("Welcome to Camper Airbnb API!");
 });
 
 module.exports = app;

@@ -1,35 +1,41 @@
-
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// Get all campers
-const getAllCampers = async (req, res) => {
+exports.getAllCampers = async (req, res) => {
   try {
     const campers = await prisma.camper.findMany();
     res.status(200).json(campers);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching campers' });
+    console.error('Error fetching campers:', error);
+    res.status(500).json({ error: 'Failed to fetch campers' });
   }
 };
 
-// Create a new camper
-const createCamper = async (req, res) => {
-  const { name, location, availability, price } = req.body;
+exports.createCamper = async (req, res) => {
+  const ownerId = req.userId; // Extract owner ID from the authenticated token
 
   try {
-    const newCamper = await prisma.camper.create({
+    const { title, description, location, price } = req.body;
+
+    // Validate required fields
+    if (!title || !description || !location || !price) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Create camper listing
+    const camper = await prisma.camper.create({
       data: {
-        name,
+        title,
+        description,
         location,
-        availability,
-        price,
-        ownerId: req.user.id,  // assuming the user is authenticated
+        price: parseFloat(price),
+        ownerId,
       },
     });
-    res.status(201).json(newCamper);
+
+    res.status(201).json({ message: 'Camper created successfully', camper });
   } catch (error) {
-    res.status(500).json({ error: 'Error creating camper' });
+    console.error('Error creating camper:', error);
+    res.status(500).json({ error: 'Failed to create camper' });
   }
 };
-
-module.exports = { getAllCampers, createCamper };
