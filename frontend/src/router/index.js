@@ -6,13 +6,44 @@ import Login from '../pages/Login.vue';
 import EditAccount from '../pages/EditAccount.vue';
 import OwnerPage from '../pages/OwnerPage.vue';
 import CustomerDashboard from '../pages/CustomerDashboard.vue';
+import MyBookings from '../pages/Mybookings.vue';
+import EditCamper from '../pages/EditCamper.vue';
 
 const routes = [
+  // Public routes
   { path: '/', name: 'Home', component: Home },
-  { path: '/booking', name: 'Booking', component: BookingForm },
   { path: '/signup', name: 'SignUp', component: SignUp },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/edit-account', name: 'EditAccount', component: EditAccount },
+
+  // Authenticated routes
+  {
+    path: '/edit-account',
+    name: 'EditAccount',
+    component: EditAccount,
+    meta: { requiresAuth: true },
+  },
+
+  // Customer-specific routes
+  {
+    path: '/customer-dashboard',
+    name: 'CustomerDashboard',
+    component: CustomerDashboard,
+    meta: { requiresAuth: true, role: 'CUSTOMER' },
+  },
+  {
+    path: '/my-bookings',
+    name: 'MyBookings',
+    component: MyBookings,
+    meta: { requiresAuth: true, role: 'CUSTOMER' },
+  },
+  {
+    path: '/booking',
+    name: 'BookingForm',
+    component: BookingForm,
+    meta: { requiresAuth: true, role: 'CUSTOMER' },
+  },
+
+  // Owner-specific routes
   {
     path: '/owner',
     name: 'OwnerPage',
@@ -20,10 +51,10 @@ const routes = [
     meta: { requiresAuth: true, role: 'OWNER' },
   },
   {
-    path: '/customer-dashboard',
-    name: 'CustomerDashboard',
-    component: CustomerDashboard,
-    meta: { requiresAuth: true, role: 'CUSTOMER' },
+    path: '/edit-camper/:id',
+    name: 'EditCamper',
+    component: EditCamper,
+    meta: { requiresAuth: true, role: 'OWNER' },
   },
 ];
 
@@ -32,16 +63,20 @@ const router = createRouter({
   routes,
 });
 
+// Navigation guard to handle authentication and role-based access
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = !!localStorage.getItem('token');
-  const role = localStorage.getItem('role');
+  const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
+  const role = localStorage.getItem('role'); // Get the user's role
 
   if (to.meta.requiresAuth && !isLoggedIn) {
-    next('/login'); // Redirect to login if not authenticated
+    // Redirect to login if the route requires authentication and the user is not logged in
+    next('/login');
   } else if (to.meta.role && to.meta.role !== role) {
-    next('/'); // Redirect to home if the role doesn't match
+    // Redirect to home if the user's role does not match the required role for the route
+    next('/');
   } else {
-    next(); // Allow access
+    // Allow access to the route
+    next();
   }
 });
 

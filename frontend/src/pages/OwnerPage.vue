@@ -49,11 +49,28 @@
             required
           />
         </div>
+        <div>
+          <label for="image" class="block text-gray-700 font-medium mb-2">Image</label>
+          <input
+            ref="image"
+            type="file"
+            id="image"
+            class="border border-gray-300 p-2 w-full rounded"
+            accept="image/*"
+          />
+        </div>
         <button
           type="submit"
           class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
         >
           Add Camper
+        </button>
+
+                <button
+          @click="$router.push({ name: 'EditCamper', params: { id: camper.id } })"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
+        >
+          Edit Camper
         </button>
       </form>
     </div>
@@ -64,10 +81,17 @@
       <h2 class="text-xl font-semibold mb-4">Your Camper Listings</h2>
       <ul class="space-y-4">
         <li v-for="camper in campers" :key="camper.id" class="border p-4 rounded">
+          <img :src="camper.image" alt="Camper Image" class="w-full h-48 object-cover rounded-xl" />
           <h3 class="text-lg font-bold">{{ camper.title }}</h3>
           <p>{{ camper.description }}</p>
           <p class="text-gray-600">{{ camper.location }}</p>
           <p class="text-green-600 font-semibold">€{{ camper.price }} / night</p>
+          <button
+            @click="deleteCamper(camper.id)"
+            class="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Delete Camper
+          </button>
         </li>
       </ul>
     </div>
@@ -113,21 +137,46 @@ export default {
     // Add a new camper
     async addCamper() {
       try {
-        const response = await axios.post(
-          'http://localhost:5000/campers',
-          this.newCamper,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        );
+        const formData = new FormData();
+        formData.append('title', this.newCamper.title);
+        formData.append('description', this.newCamper.description);
+        formData.append('location', this.newCamper.location);
+        formData.append('price', this.newCamper.price);
+        formData.append('image', this.$refs.image.files[0]); // Append the image file
+
+        const response = await axios.post('http://localhost:5000/campers', formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
         alert('Camper added successfully!');
         this.newCamper = { title: '', description: '', location: '', price: '' }; // Reset form
+        this.$refs.image.value = ''; // Reset file input
         await this.fetchCampers(); // Refresh campers after adding
       } catch (error) {
         console.error(error.response?.data || error.message);
         alert('Failed to add camper. Please try again.');
+      }
+    },
+
+    // Delete a camper
+    async deleteCamper(camperId) {
+      if (!confirm('Are you sure you want to delete this camper?')) return;
+
+      try {
+        await axios.delete(`http://localhost:5000/campers/${camperId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        alert('Camper deleted successfully!');
+        await this.fetchCampers(); // Refresh campers after deletion
+      } catch (error) {
+        console.error(error.response?.data || error.message);
+        alert('Failed to delete camper. Please try again.');
       }
     },
   },

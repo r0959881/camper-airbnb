@@ -18,6 +18,9 @@
         <li v-if="authState.isLoggedIn">
           <router-link to="/edit-account" class="text-white">Edit Account</router-link>
         </li>
+        <li v-if="authState.isLoggedIn && authState.role === 'CUSTOMER'">
+        <router-link to="/my-bookings" class="text-white">My Bookings</router-link>
+        </li>
         <li v-if="authState.isLoggedIn">
           <button @click="logout" class="text-white">Logout</button>
         </li>
