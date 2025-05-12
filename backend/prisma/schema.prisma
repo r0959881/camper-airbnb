@@ -24,7 +24,6 @@ enum Role {
   OWNER
 }
 
-
 model Camper {
   id          Int       @id @default(autoincrement())
   title       String
@@ -35,8 +34,10 @@ model Camper {
   owner       User      @relation("UserCampers", fields: [ownerId], references: [id])
   reviews     Review[]  // A camper can have many reviews
   bookings    Booking[] // A camper can have many bookings
+  image       String?   // Add this field for the image URL
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime? // Add this field for soft deletion
 }
 
 model Review {
