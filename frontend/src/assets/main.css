@@ -1,15 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+@import "tailwindcss";
+/* Optional: If base.css exists */
 @import './base.css';
 
-
-/* Remove max-width, margin, and padding from #app to allow full-viewport layouts */
+/* App styles */
 #app {
   font-weight: normal;
 }
 
-/* Link styles (keep if you want) */
+/* Link styling */
 a,
 .green {
   text-decoration: none;
@@ -29,13 +28,13 @@ a:visited {
   }
 }
 
-/* Remove flex and padding from body/#app for large screens */
+/* Clean up flex styles from large screens */
 @media (min-width: 1024px) {
   body {
-    /* Remove display: flex and place-items: center */
+    /* optional: reset large screen styles */
   }
 
   #app {
-    /* Remove display: flex, flex-direction, and padding */
+    /* optional: reset layout styles */
   }
 }
