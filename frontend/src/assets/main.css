@@ -1,42 +1,41 @@
-
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import './base.css';
 
+
+/* Remove max-width, margin, and padding from #app to allow full-viewport layouts */
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
 }
 
+/* Link styles (keep if you want) */
 a,
 .green {
   text-decoration: none;
   transition: 0.4s;
   padding: 3px;
-  color: hsla(160, 100%, 37%, 1); /* Explicitly set the color for normal state */
+  color: hsla(160, 100%, 37%, 1);
 }
 
 a:visited {
-  color: hsla(160, 100%, 37%, 1); /* Ensure visited links have the same color */
+  color: hsla(160, 100%, 37%, 1);
 }
 
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
-    color: hsla(160, 100%, 37%, 1); /* Explicitly set the hover text color */
+    color: hsla(160, 100%, 37%, 1);
   }
 }
 
+/* Remove flex and padding from body/#app for large screens */
 @media (min-width: 1024px) {
   body {
-    display: flex;
-    place-items: center;
+    /* Remove display: flex and place-items: center */
   }
 
   #app {
-    display: flex;
-    flex-direction: column;
-    padding: 0 2rem;
+    /* Remove display: flex, flex-direction, and padding */
   }
 }
