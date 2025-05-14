@@ -1,6 +1,8 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 via-white to-green-200 px-4">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 md:p-10 flex flex-col items-center">
+  <div class="min-h-screen flex items-center justify-center bg-cover bg-center"
+       style="background-image: url('/camp.jpg');">
+    <div class="w-full max-w-md bg-white/50 rounded-2xl shadow-2xl p-8 md:p-10 flex flex-col items-center text-gray-900">
+      <!-- All your content here will now have dark text -->
       <h1 class="text-3xl md:text-4xl font-extrabold mb-2 text-green-700 text-center">Welcome Back</h1>
       <p class="mb-8 text-center text-gray-600 text-base md:text-lg">
         Please enter your <span class="text-green-700 font-semibold">email</span> and <span class="text-green-700 font-semibold">password</span> to log in.

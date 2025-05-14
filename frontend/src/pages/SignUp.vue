@@ -1,37 +1,48 @@
-<!-- filepath: c:\Projects\camper-airbnb\frontend\src\pages\SignUP.vue -->
 <template>
-  <div class="signup-container">
-    <h2>Sign Up</h2>
-    <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input v-model="user.name" type="text" id="name" required />
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input v-model="user.email" type="email" id="email" required />
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input v-model="user.password" type="password" id="password" required />
-      </div>
-
-      <div class="form-group">
-        <label for="role">Role</label>
-        <select v-model="user.role" id="role" required>
-          <option value="CUSTOMER">Customer</option>
-          <option value="OWNER">Owner</option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn">Sign Up</button>
-    </form>
-
-    <p class="login-link">
-      Already have an account? <router-link to="/login">Login</router-link>
-    </p>
+  <div
+    class="min-h-screen flex items-center justify-center bg-cover bg-center"
+    style="background-image: url('/camping-bj.jpg');"
+  >
+    <div class="w-full max-w-md bg-white/50 rounded-2xl shadow-2xl p-8 md:p-10 flex flex-col items-center text-gray-900">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-2 text-green-700 text-center">Sign Up</h2>
+      <form @submit.prevent="handleSubmit" class="w-full">
+        <div class="mb-5">
+          <label for="name" class="block text-green-900 font-medium mb-2">Name</label>
+          <input v-model="user.name" type="text" id="name" placeholder="Enter your name"
+            class="border border-green-300 bg-green-50 text-gray-900 p-3 w-full rounded focus:ring-2 focus:ring-green-400 outline-none transition"
+            required />
+        </div>
+        <div class="mb-5">
+          <label for="email" class="block text-green-900 font-medium mb-2">Email</label>
+          <input v-model="user.email" type="email" id="email" placeholder="Enter your email"
+            class="border border-green-300 bg-green-50 text-gray-900 p-3 w-full rounded focus:ring-2 focus:ring-green-400 outline-none transition"
+            required />
+        </div>
+        <div class="mb-5">
+          <label for="password" class="block text-green-900 font-medium mb-2">Password</label>
+          <input v-model="user.password" type="password" id="password" placeholder="Enter your password"
+            class="border border-green-300 bg-green-50 text-gray-900 p-3 w-full rounded focus:ring-2 focus:ring-green-400 outline-none transition"
+            required />
+        </div>
+        <div class="mb-8">
+          <label for="role" class="block text-green-900 font-medium mb-2">Role</label>
+          <select v-model="user.role" id="role"
+            class="border border-green-300 bg-green-50 text-gray-900 p-3 w-full rounded focus:ring-2 focus:ring-green-400 outline-none transition"
+            required>
+            <option value="CUSTOMER">Customer</option>
+            <option value="OWNER">Owner</option>
+          </select>
+        </div>
+        <button type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg w-full font-bold text-lg shadow transition">
+          Sign Up
+        </button>
+      </form>
+      <p class="mt-8 text-center text-gray-500 text-sm">
+        Already have an account?
+        <router-link to="/login" class="text-green-700 font-semibold hover:underline">Login</router-link>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -45,7 +56,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        role: 'CUSTOMER', // Default role
+        role: 'CUSTOMER',
       },
     };
   },
@@ -53,10 +64,8 @@ export default {
     async handleSubmit() {
       try {
         const response = await axios.post('http://localhost:5000/auth/signup', this.user);
-        console.log(response.data); // Handle the response
-        this.$router.push('/'); // Redirect to the home page
+        this.$router.push('/login');
       } catch (error) {
-        console.error(error.response?.data || error.message);
         alert('Error during sign-up');
       }
     },
@@ -65,55 +74,5 @@ export default {
 </script>
 
 <style scoped>
-.signup-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 0.8rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  width: 100%;
-  padding: 1rem;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-.login-link {
-  text-align: center;
-  margin-top: 1rem;
-}
+/* All styling is handled by Tailwind */
 </style>

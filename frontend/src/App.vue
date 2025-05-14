@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="bg-gray-800 p-4">
+    <nav class="bg-orange/50 backdrop-blur-md p-4 rounded-b-xl shadow-md">
       <ul class="flex space-x-4">
         <li><router-link to="/">Home</router-link></li>
         <li v-if="authState.isLoggedIn && authState.role === 'CUSTOMER'">
@@ -18,16 +18,12 @@
         <li v-if="authState.isLoggedIn">
           <router-link to="/edit-account" class="text-white">Edit Account</router-link>
         </li>
-        <li v-if="authState.isLoggedIn && authState.role === 'CUSTOMER'">
-        <router-link to="/my-bookings" class="text-white">My Bookings</router-link>
-        </li>
         <li v-if="authState.isLoggedIn">
           <button @click="logout" class="text-white">Logout</button>
         </li>
       </ul>
     </nav>
-
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
