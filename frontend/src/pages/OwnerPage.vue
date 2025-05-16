@@ -1,99 +1,103 @@
 <template>
-  <div class="p-8">
-    <h1 class="text-2xl font-bold mb-6">Owner Dashboard</h1>
+  <div
+    class="min-h-screen flex items-center justify-center bg-cover bg-center"
+    style="background-image: url('/lighting.webp');"
+  >
+    <div class="max-w-5xl w-full bg-white/80 rounded-2xl shadow-2xl p-8 md:p-10 text-gray-900">
+      <h1 class="text-3xl font-extrabold mb-6 text-green-700 text-center">Owner Dashboard</h1>
 
-    <!-- Add Camper Listing Form -->
-    <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-4">Add a Camper Listing</h2>
-      <form @submit.prevent="addCamper" class="space-y-4">
-        <div>
-          <label for="title" class="block text-gray-700 font-medium mb-2">Title</label>
-          <input
-            v-model="newCamper.title"
-            type="text"
-            id="title"
-            placeholder="Enter camper title"
-            class="border border-gray-300 p-2 w-full rounded"
-            required
-          />
-        </div>
-        <div>
-          <label for="description" class="block text-gray-700 font-medium mb-2">Description</label>
-          <textarea
-            v-model="newCamper.description"
-            id="description"
-            placeholder="Enter camper description"
-            class="border border-gray-300 p-2 w-full rounded"
-            required
-          ></textarea>
-        </div>
-        <div>
-          <label for="location" class="block text-gray-700 font-medium mb-2">Location</label>
-          <input
-            v-model="newCamper.location"
-            type="text"
-            id="location"
-            placeholder="Enter camper location"
-            class="border border-gray-300 p-2 w-full rounded"
-            required
-          />
-        </div>
-        <div>
-          <label for="price" class="block text-gray-700 font-medium mb-2">Price (per night)</label>
-          <input
-            v-model="newCamper.price"
-            type="number"
-            id="price"
-            placeholder="Enter price"
-            class="border border-gray-300 p-2 w-full rounded"
-            required
-          />
-        </div>
-        <div>
-          <label for="image" class="block text-gray-700 font-medium mb-2">Image</label>
-          <input
-            ref="image"
-            type="file"
-            id="image"
-            class="border border-gray-300 p-2 w-full rounded"
-            accept="image/*"
-          />
-        </div>
-        <button
-          type="submit"
-          class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-        >
-          Add Camper
-        </button>
-
-                <button
-          @click="$router.push({ name: 'EditCamper', params: { id: camper.id } })"
-          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
-        >
-          Edit Camper
-        </button>
-      </form>
-    </div>
-
-    <!-- Camper Listings -->
-    <div v-if="campers.length === 0" class="text-gray-600">No campers found.</div>
-    <div v-else>
-      <h2 class="text-xl font-semibold mb-4">Your Camper Listings</h2>
-      <ul class="space-y-4">
-        <li v-for="camper in campers" :key="camper.id" class="border p-4 rounded">
-          <img :src="camper.image" alt="Camper Image" class="w-full h-48 object-cover rounded-xl" />
-          <h3 class="text-lg font-bold">{{ camper.title }}</h3>
-          <p>{{ camper.description }}</p>
-          <p class="text-gray-600">{{ camper.location }}</p>
-          <p class="text-green-600 font-semibold">€{{ camper.price }} / night</p>
+      <!-- Add Camper Listing Form -->
+      <div class="mb-10">
+        <h2 class="text-xl font-bold mb-4">Add a Camper Listing</h2>
+        <form @submit.prevent="addCamper" class="space-y-4">
+          <div>
+            <label for="title" class="block font-bold mb-2 text-gray-900">Title</label>
+            <input
+              v-model="newCamper.title"
+              type="text"
+              id="title"
+              placeholder="Enter camper title"
+              class="border border-gray-300 p-2 w-full rounded text-gray-900"
+              required
+            />
+          </div>
+          <div>
+            <label for="description" class="block font-bold mb-2 text-gray-900">Description</label>
+            <textarea
+              v-model="newCamper.description"
+              id="description"
+              placeholder="Enter camper description"
+              class="border border-gray-300 p-2 w-full rounded text-gray-900"
+              required
+            ></textarea>
+          </div>
+          <div>
+            <label for="location" class="block font-bold mb-2 text-gray-900">Location</label>
+            <input
+              v-model="newCamper.location"
+              type="text"
+              id="location"
+              placeholder="Enter camper location"
+              class="border border-gray-300 p-2 w-full rounded text-gray-900"
+              required
+            />
+          </div>
+          <div>
+            <label for="price" class="block font-bold mb-2 text-gray-900">Price (per night)</label>
+            <input
+              v-model="newCamper.price"
+              type="number"
+              id="price"
+              placeholder="Enter price"
+              class="border border-gray-300 p-2 w-full rounded text-gray-900"
+              required
+            />
+          </div>
+          <div>
+            <label for="image" class="block font-bold mb-2 text-gray-900">Image</label>
+            <input
+              ref="image"
+              type="file"
+              id="image"
+              class="border border-gray-300 p-2 w-full rounded text-gray-900"
+              accept="image/*"
+            />
+          </div>
           <button
-            @click="deleteCamper(camper.id)"
-            class="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-bold"
           >
-            Delete Camper
+            Add Camper
           </button>
-        </li>
-      </ul>
+        </form>
+      </div>
+
+      <!-- Camper Listings -->
+      <div v-if="campers.length === 0" class="text-gray-900">No campers found.</div>
+      <div v-else>
+        <h2 class="text-xl font-bold mb-4">Your Camper Listings</h2>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <li v-for="camper in campers" :key="camper.id" class="border p-4 rounded bg-white/90 shadow text-gray-900">
+            <img :src="camper.image" alt="Camper Image" class="w-full h-48 object-cover rounded-xl mb-2" />
+            <h3 class="text-lg font-bold">{{ camper.title }}</h3>
+            <p>{{ camper.description }}</p>
+            <p>{{ camper.location }}</p>
+            <p class="text-green-600 font-semibold">€{{ camper.price }} / night</p>
+            <button
+              @click="deleteCamper(camper.id)"
+              class="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Delete Camper
+            </button>
+            <button
+              @click="$router.push({ name: 'EditCamper', params: { id: camper.id } })"
+              class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Edit Camper
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
