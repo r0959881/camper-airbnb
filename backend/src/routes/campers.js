@@ -4,7 +4,10 @@ const campersController = require('../controllers/campersController'); // Ensure
 const auth = require('../middleware/auth'); // Middleware to authenticate and authorize
 
 // Fetch all campers (accessible to all authenticated users)
-router.get('/', auth(), campersController.getAllCampers);
+// router.get('/', auth(), campersController.getAllCampers);
+
+// Fetch all campers (accessible to everyone)
+router.get('/', campersController.getAllCampers);
 
 // Fetch campers for the logged-in owner (only for owners)
 router.get('/owner', campersController.getCampersForOwner);
