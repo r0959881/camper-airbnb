@@ -75,19 +75,23 @@ export default {
   },
   methods: {
     async fetchCampers() {
-      try {
-        const response = await axios.get('/campers/owner?ownerId=7');
-        this.campers = response.data.filter((camper) => !camper.deletedAt);
-      } catch (error) {
-        alert('Failed to load campers. Please try again later.');
-      }
-    },
-    handleBooking(camperId) {
-      this.$router.push({
-        name: 'Booking',
-        query: { camperId },
-      });
-    },
+  try {
+    const response = await axios.get('/campers', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    this.campers = response.data.filter((camper) => !camper.deletedAt);
+  } catch (error) {
+    alert('Failed to load campers. Please try again later.');
+  }
+},
+handleBooking(camperId) {
+  this.$router.push({
+    name: 'BookingForm',
+    query: { camperId },
+  });
+},
     async deleteCamper(camperId) {
       if (!confirm('Are you sure you want to delete this camper?')) return;
       try {

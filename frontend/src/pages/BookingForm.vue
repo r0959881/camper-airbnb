@@ -47,48 +47,53 @@ export default {
   },
   mounted() {
     // Retrieve camperId from the query parameters
-    const camperId = this.$route.query.camperId;
+    let camperId = this.$route.query.camperId;
     if (!camperId) {
       alert('Camper ID is missing. Please try again.');
       this.$router.push('/'); // Redirect to home if camperId is missing
     } else {
-      this.booking.camperId = camperId;
+      this.booking.camperId = parseInt(camperId, 10); // Ensure camperId is a number
     }
   },
   methods: {
-  async submitBooking() {
-    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    async submitBooking() {
+      if (!this.booking.camperId || isNaN(this.booking.camperId)) {
+        alert('Invalid camper ID.');
+        return;
+      }
 
-    if (this.booking.startDate < today) {
-      alert('Start date cannot be in the past');
-      return;
-    }
+      const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
 
-    if (this.booking.endDate <= this.booking.startDate) {
-      alert('End date must be after the start date');
-      return;
-    }
+      if (this.booking.startDate < today) {
+        alert('Start date cannot be in the past');
+        return;
+      }
 
-    try {
-      console.log('Submitting booking:', this.booking); // Log the booking data
-      const response = await axios.post(
-        'http://localhost:5000/bookings/customer',
-        this.booking,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
-      alert('Booking created successfully!');
-      console.log(response.data);
-      this.$router.push('/my-bookings'); // Redirect to user's bookings page
-    } catch (error) {
-      console.error('Error creating booking:', error.response?.data || error.message);
-      alert('Failed to create booking. Please try again.');
-    }
+      if (this.booking.endDate <= this.booking.startDate) {
+        alert('End date must be after the start date');
+        return;
+      }
+
+      try {
+        console.log('Submitting booking:', this.booking); // Log the booking data
+        const response = await axios.post(
+          'http://localhost:5000/bookings/customer',
+          this.booking,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        );
+        alert('Booking created successfully!');
+        console.log(response.data);
+        this.$router.push('/my-bookings'); // Redirect to user's bookings page
+      } catch (error) {
+        console.error('Error creating booking:', error.response?.data || error.message);
+        alert('Failed to create booking. Please try again.');
+      }
+    },
   },
-},
 };
 </script>
 
