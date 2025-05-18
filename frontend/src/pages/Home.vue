@@ -16,7 +16,7 @@
       <div v-if="filteredCampers.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="camper in filteredCampers" :key="camper.id" class="border p-4 rounded shadow bg-white">
           <img :src="camper.image || 'https://via.placeholder.com/400x300?text=No+Image+Available'" alt="Camper Image" class="w-full h-48 object-cover rounded-xl" />
-          <h2 class="text-xl font-bold mt-2">{{ camper.title }}</h2>
+          <h2 class="text-gray-700 font-bold mt-2">{{ camper.title }}</h2>
           <p class="text-gray-600">{{ camper.location }}</p>
           <p class="text-green-600 font-semibold">€{{ camper.price }} / night</p>
           <p class="text-gray-700 mt-2">{{ camper.description }}</p>
