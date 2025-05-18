@@ -2,10 +2,10 @@
   <div>
     <nav class="bg-orange/50 backdrop-blur-md p-4 rounded-b-xl shadow-md">
       <ul class="flex space-x-4">
-        <li><router-link to="/">Home</router-link></li>
-        <li v-if="authState.isLoggedIn && authState.role === 'CUSTOMER'">
-          <router-link to="/booking">Booking</router-link>
-        </li>
+                  <li><router-link to="/">Home</router-link></li>
+                  <li v-if="authState.isLoggedIn && authState.role === 'CUSTOMER'">
+            <router-link to="/my-bookings">My Bookings</router-link>
+          </li>
         <li v-if="authState.isLoggedIn && authState.role === 'OWNER'">
           <router-link to="/owner" class="text-white">Owner Dashboard</router-link>
         </li>

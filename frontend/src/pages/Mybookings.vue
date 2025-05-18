@@ -4,13 +4,15 @@
       <div v-if="bookings.length === 0" class="text-gray-600">No bookings found.</div>
       <div v-else>
         <ul class="space-y-4">
-          <li v-for="booking in bookings" :key="booking.id" class="border p-4 rounded">
-            <h3 class="text-lg font-bold">Camper: {{ booking.camper.title }}</h3>
-            <p>Location: {{ booking.camper.location }}</p>
-            <p>Price: €{{ booking.camper.price }} / night</p>
-            <p>Start Date: {{ new Date(booking.startDate).toLocaleDateString() }}</p>
-            <p>End Date: {{ new Date(booking.endDate).toLocaleDateString() }}</p>
-          </li>
+            <li v-for="booking in bookings" :key="booking.id" class="border p-4 rounded">
+  <h3 class="text-lg font-bold">
+    Camper: {{ booking.camper ? booking.camper.title : 'Unknown Camper' }}
+  </h3>
+  <p>Location: {{ booking.camper ? booking.camper.location : 'N/A' }}</p>
+  <p>Price: €{{ booking.camper ? booking.camper.price : 'N/A' }} / night</p>
+  <p>Start Date: {{ new Date(booking.startDate).toLocaleDateString() }}</p>
+  <p>End Date: {{ new Date(booking.endDate).toLocaleDateString() }}</p>
+</li>
         </ul>
       </div>
     </div>
