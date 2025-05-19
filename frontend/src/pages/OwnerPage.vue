@@ -54,6 +54,30 @@
             />
           </div>
           <div>
+    <label for="latitude" class="block font-bold mb-2 text-gray-900">Latitude</label>
+    <input
+      v-model="newCamper.latitude"
+      type="number"
+      step="any"
+      id="latitude"
+      placeholder="Latitude"
+      class="border border-gray-300 p-2 w-full rounded text-gray-900"
+      required
+    />
+  </div>
+  <div>
+    <label for="longitude" class="block font-bold mb-2 text-gray-900">Longitude</label>
+    <input
+      v-model="newCamper.longitude"
+      type="number"
+      step="any"
+      id="longitude"
+      placeholder="Longitude"
+      class="border border-gray-300 p-2 w-full rounded text-gray-900"
+      required
+    />
+  </div>
+          <div>
             <label for="image" class="block font-bold mb-2 text-gray-900">Image</label>
             <input
               ref="image"
@@ -62,7 +86,7 @@
               class="border border-gray-300 p-2 w-full rounded text-gray-900"
               accept="image/*"
             />
-          </div>
+          </div>  
           <button
             type="submit"
             class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-bold"

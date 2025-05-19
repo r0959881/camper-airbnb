@@ -42,6 +42,28 @@
             required
           />
         </div>
+        <div>
+        <label for="latitude" class="block text-gray-700 font-medium mb-2">Latitude</label>
+        <input
+          v-model.number="camper.latitude"
+          type="number"
+          step="any"
+          id="latitude"
+          class="border border-gray-300 p-2 w-full rounded"
+          required
+        />
+      </div>
+      <div>
+        <label for="longitude" class="block text-gray-700 font-medium mb-2">Longitude</label>
+        <input
+          v-model.number="camper.longitude"
+          type="number"
+          step="any"
+          id="longitude"
+          class="border border-gray-300 p-2 w-full rounded"
+          required
+        />
+      </div>
         <div class="flex justify-end">
           <button
             type="button"
@@ -72,6 +94,8 @@
           description: '',
           location: '',
           price: '',
+          latitude: null,
+        longitude: null,
         },
       };
     },
