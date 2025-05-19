@@ -38,6 +38,8 @@ model Camper {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime? // Add this field for soft deletion
+   latitude    Float?
+  longitude   Float?
 }
 
 model Review {

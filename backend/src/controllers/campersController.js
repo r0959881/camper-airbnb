@@ -34,32 +34,30 @@ exports.getAllCampers = async (req, res) => {
 
 // Create a new camper
 exports.createCamper = [
-  upload.single('image'), // Handle single file upload
+  upload.single('image'), // If you use multer for image upload
   async (req, res) => {
     const ownerId = req.userId; // Extract owner ID from the authenticated token
 
     try {
-      const { title, description, location, price } = req.body;
-
-      // Validate required fields
-      if (!title || !description || !location || !price) {
-        return res.status(400).json({ error: 'All fields are required' });
-      }
+      // Destructure latitude and longitude from req.body
+      const { title, description, location, price, latitude, longitude } = req.body;
 
       // Get the uploaded image file path
       const image = req.file
         ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
         : null;
 
-      // Create camper listing
+      // Create camper listing with coordinates
       const camper = await prisma.camper.create({
         data: {
           title,
           description,
           location,
           price: parseFloat(price),
+          latitude: latitude ? parseFloat(latitude) : null,
+          longitude: longitude ? parseFloat(longitude) : null,
           ownerId,
-          image, // Save the full image URL
+          image,
         },
       });
 
