@@ -55,13 +55,13 @@
           </button>
 
           <!-- Add Reviews button for both roles -->
-          <router-link
-            :to="{ name: 'ReviewPage', query: { camperId: camper.id } }"
-            class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl"
-            style="margin-top: 12px;"
-          >
-            Reviews
-          </router-link>
+                          <router-link
+                :to="{ name: 'ReviewPage', query: { camperId: camper.id } }"
+                class="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded shadow transition duration-200 mt-4 block"
+                style="min-width: 120px; text-align: center;"
+              >
+                <span style="letter-spacing: 1px;">★ Reviews</span>
+              </router-link>
         </div>
       </div>
 
