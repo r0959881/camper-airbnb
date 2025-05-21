@@ -5,6 +5,7 @@ const cors = require("cors");
 const camperRoutes = require('./routes/campers');
 const bookingRoutes = require('./routes/bookings');
 const authRoutes = require('./routes/authRoutes'); // Import auth routes
+const reviewRoutes = require('./routes/reviews');
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/auth', authRoutes); // All routes in authRoutes.js will be prefixed with /auth
 app.use('/campers', camperRoutes);
 app.use('/bookings', bookingRoutes);
+
+app.use('/reviews', reviewRoutes); // Register review routes
 
 // Default Route
 app.get("/", (req, res) => {
