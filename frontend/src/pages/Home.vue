@@ -11,7 +11,7 @@
           v-model="searchQuery"
           type="text"
           placeholder="Search campers..."
-          class="border p-3 w-full rounded"
+          class="border p-3 w-full rounded  text-gray-700"
         />
       </div>
 
@@ -53,6 +53,15 @@
           >
             Book Now
           </button>
+
+          <!-- Add Reviews button for both roles -->
+          <router-link
+            :to="{ name: 'ReviewPage', query: { camperId: camper.id } }"
+            class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl"
+            style="margin-top: 12px;"
+          >
+            Reviews
+          </router-link>
         </div>
       </div>
 
@@ -73,6 +82,8 @@
 import axios from '../axios';
 import { inject } from 'vue';
 import MapComponent from '@/components/MapComponent.vue'; // ✅ Import the MapComponent
+// import CamperReviews from '@/components/CamperReviews.vue';
+
 
 export default {
   components: {
@@ -88,13 +99,16 @@ export default {
       searchQuery: '',
     };
   },
-  computed: {
-    filteredCampers() {
-      return this.campers.filter((camper) =>
-        camper.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    },
+   computed: {
+  filteredCampers() {
+    const q = this.searchQuery.toLowerCase();
+    return this.campers.filter((camper) =>
+      camper.title.toLowerCase().includes(q) ||
+      camper.location.toLowerCase().includes(q) ||
+      camper.description.toLowerCase().includes(q)
+    );
   },
+},
   async mounted() {
     await this.fetchCampers();
   },

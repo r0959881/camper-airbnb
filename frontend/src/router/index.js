@@ -56,6 +56,13 @@ const routes = [
     component: EditCamper,
     meta: { requiresAuth: true, role: 'OWNER' },
   },
+
+  {
+  path: '/reviews',
+  name: 'ReviewPage',
+  component: () => import('../pages/ReviewPage.vue'),
+  meta: { requiresAuth: true }, // Both CUSTOMER and OWNER can access
+},
 ];
 
 const router = createRouter({
