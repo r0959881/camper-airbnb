@@ -10,30 +10,30 @@
           alt="Camper Image"
           class="w-full h-48 object-cover rounded-xl mb-2"
         />
-        <h2 class="text-xl font-bold text-gray-700">{{ camper.title }}</h2>
+        <h2 class="text-xl font-bold text-white-700">{{ camper.title }}</h2>
         <p class="text-gray-600">{{ camper.location }}</p>
         <p class="text-green-600 font-semibold">€{{ camper.price }} / night</p>
-        <p class="text-gray-700 mt-2">{{ camper.description }}</p>
+        <p class="text-white-700 mt-2">{{ camper.description }}</p>
       </div>
 
       <form @submit.prevent="submitBooking" class="space-y-6">
         <div>
-          <label for="startDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
+          <label for="startDate" class="block text-white-700 font-semibold mb-2">Start Date</label>
           <input
             v-model="booking.startDate"
             type="date"
             id="startDate"
-            class="border border-gray-300 p-3 w-full rounded focus:ring-2 focus:ring-green-400 text-gray-900"
+            class="border border-gray-700 p-3 w-full rounded focus:ring-2 focus:ring-green-400 text-gray-700"
             required
           />
         </div>
         <div>
-          <label for="endDate" class="block text-gray-700 font-semibold mb-2">End Date</label>
+          <label for="endDate" class="block text-white-700 font-semibold mb-2">End Date</label>
           <input
             v-model="booking.endDate"
             type="date"
             id="endDate"
-            class="border border-gray-300 p-3 w-full rounded focus:ring-2 focus:ring-green-400 text-gray-900"
+            class="border border-gray-700 p-3 w-full rounded focus:ring-2 focus:ring-green-400 text-gray-700"
             required
           />
         </div>
