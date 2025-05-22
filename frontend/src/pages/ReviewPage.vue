@@ -50,7 +50,7 @@
             <button
               v-if="isOwner"
               @click="deleteReview(r.id)"
-              class="text-red-600 hover:underline font-semibold"
+              class="text-white-600 hover:underline font-semibold"
             >
               Delete
             </button>

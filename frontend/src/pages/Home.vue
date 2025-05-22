@@ -53,6 +53,7 @@
           >
             Book Now
           </button>
+          
 
           <!-- Add Reviews button for both roles -->
                           <router-link
@@ -62,6 +63,9 @@
               >
                 <span style="letter-spacing: 1px;">★ Reviews</span>
               </router-link>
+
+              <!-- Add this line to show reviews under each camper card -->
+               <CamperReviews :camperId="camper.id" />
         </div>
       </div>
 
@@ -82,12 +86,13 @@
 import axios from '../axios';
 import { inject } from 'vue';
 import MapComponent from '@/components/MapComponent.vue'; // ✅ Import the MapComponent
-// import CamperReviews from '@/components/CamperReviews.vue';
+import CamperReviews from '@/components/CamperReviews.vue';
 
 
 export default {
   components: {
     MapComponent,
+    CamperReviews,
   },
   setup() {
     const authState = inject('authState');
