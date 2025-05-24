@@ -49,7 +49,7 @@
           <p class="text-green-600 font-semibold">€{{ camper.price }} / night</p>
           <p class="text-gray-700 mt-2">{{ camper.description }}</p>
 
-          <div v-if="authState.role === 'OWNER'" class="mt-4">
+          <!-- <div v-if="authState.role === 'OWNER'" class="mt-4">
             <button
               @click="$router.push({ name: 'EditCamper', params: { id: camper.id } })"
               class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
@@ -62,7 +62,7 @@
             >
               Delete Camper
             </button>
-          </div>
+          </div> -->
 
           <button
             v-if="authState.role === 'CUSTOMER'"
