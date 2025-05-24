@@ -6,14 +6,32 @@
     <div class="max-w-6xl w-full bg-white/80 rounded-2xl shadow-2xl p-8 md:p-10">
       <h1 class="text-3xl font-extrabold mb-6 text-green-700 text-center">Available Campers</h1>
       
-      <div class="mb-6">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Search campers..."
-          class="border p-3 w-full rounded  text-gray-700"
-        />
-      </div>
+<div class="mb-6 flex flex-row items-center gap-2 p-2">
+  <input
+    v-model="searchQuery"
+    type="text"
+    placeholder="Search campers..."
+    class="border px-4 py-2 rounded text-gray-700 flex-[2] min-w-0"
+  />
+  <input
+    v-model.number="minPrice"
+    type="number"
+    min="0"
+    placeholder="Min price"
+    class="border px-4 py-2 rounded text-gray-700 flex-[1] min-w-0"
+  />
+  <input
+    v-model.number="maxPrice"
+    type="number"
+    min="0"
+    placeholder="Max price"
+    class="border px-4 py-2 rounded text-gray-700 flex-[1] min-w-0"
+  />
+
+</div>
+
+
+
 
       <div v-if="filteredCampers.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
@@ -101,17 +119,25 @@ export default {
   data() {
     return {
       campers: [],
-      searchQuery: '',
+       searchQuery: '',
+       minPrice: null,
+       maxPrice: null,
     };
   },
    computed: {
   filteredCampers() {
     const q = this.searchQuery.toLowerCase();
-    return this.campers.filter((camper) =>
-      camper.title.toLowerCase().includes(q) ||
-      camper.location.toLowerCase().includes(q) ||
-      camper.description.toLowerCase().includes(q)
-    );
+    return this.campers.filter((camper) => {
+      const matchesText =
+        camper.title.toLowerCase().includes(q) ||
+        camper.location.toLowerCase().includes(q) ||
+        camper.description.toLowerCase().includes(q);
+
+      const matchesMin = this.minPrice == null || Number(camper.price) >= this.minPrice;
+      const matchesMax = this.maxPrice == null || Number(camper.price) <= this.maxPrice;
+
+      return matchesText && matchesMin && matchesMax;
+    });
   },
 },
   async mounted() {
