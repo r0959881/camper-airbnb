@@ -7,11 +7,14 @@
             <router-link to="/my-bookings">My Bookings</router-link>
           </li>
         <li v-if="authState.isLoggedIn && authState.role === 'OWNER'">
-          <router-link to="/owner" class="text-white">Owner Dashboard</router-link>
+          <router-link to="/owner" class="text-white">Add a Listing</router-link>
         </li>
         <li v-if="!authState.isLoggedIn">
           <router-link to="/signup">Sign Up</router-link>
         </li>
+        <li v-if="authState.isLoggedIn && authState.role === 'OWNER'">
+  <router-link to="/owner-dashboard" class="text-white">Owner Dashboard</router-link>
+</li>
         <li v-if="!authState.isLoggedIn">
           <router-link to="/login">Login</router-link>
         </li>

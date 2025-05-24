@@ -4,7 +4,7 @@
     style="background-image: url('/river.jpg');"
   >
     <div class="max-w-5xl w-full bg-white/80 rounded-2xl shadow-2xl p-8 md:p-10 text-gray-900">
-      <h1 class="text-3xl font-extrabold mb-6 text-green-700 text-center">Owner Dashboard</h1>
+      <h1 class="text-3xl font-extrabold mb-6 text-green-700 text-center">Add a Listing</h1>
 
       <!-- Add Camper Listing Form -->
       <div class="mb-10">

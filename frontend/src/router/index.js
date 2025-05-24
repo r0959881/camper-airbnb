@@ -4,7 +4,7 @@ import BookingForm from '../pages/BookingForm.vue';
 import SignUp from '../pages/SignUp.vue';
 import Login from '../pages/Login.vue';
 import EditAccount from '../pages/EditAccount.vue';
-import OwnerPage from '../pages/OwnerPage.vue';
+import OwnerPage from '../pages/Add Listing.vue';
 import CustomerDashboard from '../pages/CustomerDashboard.vue';
 import MyBookings from '../pages/Mybookings.vue';
 import EditCamper from '../pages/EditCamper.vue';
@@ -62,6 +62,12 @@ const routes = [
   name: 'ReviewPage',
   component: () => import('../pages/ReviewPage.vue'),
   meta: { requiresAuth: true }, // Both CUSTOMER and OWNER can access
+},
+{
+  path: '/owner-dashboard',
+  name: 'OwnerDashboard',
+  component: () => import('../pages/OwnerDashboard.vue'),
+  meta: { requiresAuth: true, role: 'OWNER' },
 },
 ];
 
