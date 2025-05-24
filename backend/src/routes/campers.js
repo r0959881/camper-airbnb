@@ -10,10 +10,16 @@ const auth = require('../middleware/auth'); // Middleware to authenticate and au
 router.get('/', campersController.getAllCampers);
 
 // Fetch campers for the logged-in owner (only for owners)
-router.get('/owner', campersController.getCampersForOwner);
+// router.get('/owner', campersController.getCampersForOwner);
+
+
+// Fetch campers for the logged-in owner (only for owners)//erte
+router.get('/owner', auth('OWNER'), campersController.getCampersForOwner);
 
 // Fetch camper details by ID (accessible to all authenticated users)
 router.get('/:id', auth(), campersController.getCamperById);
+
+
 
 
 
