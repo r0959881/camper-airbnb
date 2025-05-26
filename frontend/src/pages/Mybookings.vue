@@ -6,13 +6,14 @@
         <li
           v-for="booking in activeBookings"
           :key="booking.id"
-          class="border border-gray-200 rounded-xl bg-white/90 shadow p-4 flex items-center gap-4"
+          class="border border-gray-200 rounded-xl bg-white/90 shadow p-4 flex flex-row items-center gap-4"
         >
           <img
             v-if="booking.camper && booking.camper.image"
             :src="booking.camper.image"
             alt="Camper Image"
-            class="w-20 h-20 object-cover rounded-lg shadow-sm flex-shrink-0"
+            class="w-32 h-24 object-cover rounded-lg shadow-sm flex-shrink-0"
+            style="max-width: 128px; max-height: 96px;"
           />
           <div class="flex-1">
             <h3 class="text-lg font-bold mb-1 text-gray-700">
@@ -38,13 +39,14 @@
         <li
           v-for="booking in expiredBookings"
           :key="booking.id"
-          class="border border-gray-200 rounded-xl bg-gray-200 shadow p-4 flex items-center gap-4 opacity-70"
+          class="border border-gray-200 rounded-xl bg-gray-200 shadow p-4 flex flex-row items-center gap-4 opacity-70"
         >
           <img
             v-if="booking.camper && booking.camper.image"
             :src="booking.camper.image"
             alt="Camper Image"
-            class="w-20 h-20 object-cover rounded-lg shadow-sm flex-shrink-0"
+            class="w-32 h-24 object-cover rounded-lg shadow-sm flex-shrink-0"
+            style="max-width: 128px; max-height: 96px;"
           />
           <div class="flex-1">
             <h3 class="text-lg font-bold mb-1 text-gray-700">
