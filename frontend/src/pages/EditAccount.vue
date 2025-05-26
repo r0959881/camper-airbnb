@@ -1,13 +1,16 @@
 <template>
   <div
     class="min-h-screen flex items-center justify-center bg-cover bg-center"
-    style="background-image: url('/lighting.webp');"
+    style="background-image: url('/rain.jpg');"
   >
     <div class="w-full max-w-md bg-white/80 rounded-2xl shadow-2xl px-4 md:px-8 py-8 mx-4 text-gray-900">
       <h1 class="text-2xl font-bold mb-6 text-center text-green-700">Edit Account</h1>
       <form @submit.prevent="handleUpdate">
         <div class="mb-4">
-          <label for="name" class="block text-gray-900 font-medium mb-2">Name</label>
+          <label for="name" class="block text-gray-900 font-medium mb-2">
+            Name:
+            <span class="ml-2 text-gray-600">{{ user.name }}</span>
+          </label>
           <input
             v-model="user.name"
             type="text"
@@ -17,7 +20,10 @@
           />
         </div>
         <div class="mb-4">
-          <label for="email" class="block text-gray-900 font-medium mb-2">Email</label>
+          <label for="email" class="block text-gray-900 font-medium mb-2">
+            Email:
+            <span class="ml-2 text-gray-600">{{ user.email }}</span>
+          </label>
           <input
             v-model="user.email"
             type="email"
@@ -27,7 +33,13 @@
           />
         </div>
         <div class="mb-4">
-          <label for="password" class="block text-gray-900 font-medium mb-2">Password (optional)</label>
+          <label for="password" class="block text-gray-900 font-medium mb-2">
+            Reset password:
+            <span class="ml-2 text-gray-600">
+              <!-- Optionally, you can hide the password or show a placeholder -->
+              ••••••••
+            </span>
+          </label>
           <input
             v-model="user.password"
             type="password"

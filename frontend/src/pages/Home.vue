@@ -144,18 +144,26 @@ export default {
     await this.fetchCampers();
   },
   methods: {
-    async fetchCampers() {
-      try {
-        const response = await axios.get('/campers', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        this.campers = response.data.filter((camper) => !camper.deletedAt);
-      } catch (error) {
-        alert('Failed to load campers. Please try again later.');
-      }
-    },
+   async fetchCampers() {
+  try {
+    const response = await axios.get('/campers', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    // Convert lat/lng to numbers
+    this.campers = response.data
+      .filter((camper) => !camper.deletedAt)
+      .map((camper) => ({
+        ...camper,
+        latitude: camper.latitude ? Number(camper.latitude) : null,
+        longitude: camper.longitude ? Number(camper.longitude) : null,
+      }));
+      console.log('Campers for map:', this.campers);
+  } catch (error) {
+    alert('Failed to load campers. Please try again later.');
+  }
+},
     handleBooking(camperId) {
       this.$router.push({
         name: 'BookingForm',

@@ -1,46 +1,69 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('/rain.jpg');">
-    <div class="w-full max-w-3xl bg-white/80 rounded-2xl shadow-2xl p-8 md:p-10 mx-4">
-      <h1 class="text-3xl font-extrabold mb-8 text-green-700 text-center">My Bookings</h1>
-      <div v-if="bookings.length === 0" class="text-gray-600 text-center">No bookings found.</div>
-      <div v-else>
-        <ul class="space-y-6">
-          <li
-            v-for="booking in bookings"
-            :key="booking.id"
-            class="border border-gray-200 rounded-xl bg-white/90 shadow p-4 flex items-center gap-4"
-          >
-            <img
-              v-if="booking.camper && booking.camper.image"
-              :src="booking.camper.image"
-              alt="Camper Image"
-              class="w-20 h-20 object-cover rounded-lg shadow-sm flex-shrink-0"
-            />
-            <div class="flex-1">
-              <h3 class="text-lg font-bold mb-1 text-gray-700">
-                {{ booking.camper ? booking.camper.title : 'Unknown Camper' }}
-              </h3>
-              <p class="text-gray-700 mb-1">
-                <span class="font-semibold">Location:</span>
-                {{ booking.camper ? booking.camper.location : 'N/A' }}
-              </p>
-              <p class="text-green-600 font-semibold mb-1">
-                <span class="font-semibold">Price:</span>
-                €{{ booking.camper ? booking.camper.price : 'N/A' }} / night
-              </p>
-              <p class="mb-1">
-                <span class=" text-gray-700 font-semibold">Start Date:</span>
-                <span class=" text-gray-700 font-medium">{{ new Date(booking.startDate).toLocaleDateString() }}</span>
-              </p>
-              <p>
-                <span class="text-gray-700 font-semibold">End Date:</span>
-                <span class="text-gray-700 font-medium">{{ new Date(booking.endDate).toLocaleDateString() }}</span>
-              </p>
-            </div>
-          </li>
-        </ul>
-      </div>
+  <div class="max-w-3xl mx-auto py-10">
+    <h2 class="text-2xl font-bold mb-4 text-green-700">Active Bookings</h2>
+    <div v-if="activeBookings.length">
+      <ul class="space-y-6">
+        <li
+          v-for="booking in activeBookings"
+          :key="booking.id"
+          class="border border-gray-200 rounded-xl bg-white/90 shadow p-4 flex items-center gap-4"
+        >
+          <img
+            v-if="booking.camper && booking.camper.image"
+            :src="booking.camper.image"
+            alt="Camper Image"
+            class="w-20 h-20 object-cover rounded-lg shadow-sm flex-shrink-0"
+          />
+          <div class="flex-1">
+            <h3 class="text-lg font-bold mb-1 text-gray-700">
+              {{ booking.camper ? booking.camper.title : 'Unknown Camper' }}
+            </h3>
+            <p>
+              <span class="text-gray-700 font-semibold">Start Date:</span>
+              <span class="text-gray-700 font-medium">{{ new Date(booking.startDate).toLocaleDateString() }}</span>
+            </p>
+            <p>
+              <span class="text-gray-700 font-semibold">End Date:</span>
+              <span class="text-gray-700 font-medium">{{ new Date(booking.endDate).toLocaleDateString() }}</span>
+            </p>
+          </div>
+        </li>
+      </ul>
     </div>
+    <div v-else class="text-gray-600 text-center">No active bookings.</div>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4 text-red-700">Expired Bookings</h2>
+    <div v-if="expiredBookings.length">
+      <ul class="space-y-6">
+        <li
+          v-for="booking in expiredBookings"
+          :key="booking.id"
+          class="border border-gray-200 rounded-xl bg-gray-200 shadow p-4 flex items-center gap-4 opacity-70"
+        >
+          <img
+            v-if="booking.camper && booking.camper.image"
+            :src="booking.camper.image"
+            alt="Camper Image"
+            class="w-20 h-20 object-cover rounded-lg shadow-sm flex-shrink-0"
+          />
+          <div class="flex-1">
+            <h3 class="text-lg font-bold mb-1 text-gray-700">
+              {{ booking.camper ? booking.camper.title : 'Unknown Camper' }}
+            </h3>
+            <p>
+              <span class="text-gray-700 font-semibold">Start Date:</span>
+              <span class="text-gray-700 font-medium">{{ new Date(booking.startDate).toLocaleDateString() }}</span>
+            </p>
+            <p>
+              <span class="text-gray-700 font-semibold">End Date:</span>
+              <span class="text-gray-700 font-medium">{{ new Date(booking.endDate).toLocaleDateString() }}</span>
+            </p>
+            <span class="text-red-600 font-semibold">Expired</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div v-else class="text-gray-600 text-center">No expired bookings.</div>
   </div>
 </template>
 
@@ -65,6 +88,20 @@ export default {
       console.error('Error loading bookings:', error.response?.data || error.message);
       alert('Failed to load bookings. Please try again later.');
     }
+  },
+  computed: {
+    activeBookings() {
+      const today = new Date();
+      return this.bookings.filter(
+        booking => new Date(booking.endDate) >= today
+      );
+    },
+    expiredBookings() {
+      const today = new Date();
+      return this.bookings.filter(
+        booking => new Date(booking.endDate) < today
+      );
+    },
   },
 };
 </script>
