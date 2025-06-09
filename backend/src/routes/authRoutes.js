@@ -2,7 +2,11 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const prisma = require('../utils/prisma'); // Assuming prisma is properly initialized
+const { OAuth2Client } = require('google-auth-library');
 const router = express.Router();
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 // Middleware to authenticate the user
 const authenticate = (req, res, next) => {
@@ -19,6 +23,8 @@ const authenticate = (req, res, next) => {
     return res.status(401).json({ message: 'Invalid token' });
   }
 };
+
+// Email/password login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -52,6 +58,47 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// Google Sign-In login
+router.post('/google', async (req, res) => {
+  const { credential } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const email = payload.email;
+    const name = payload.name;
+
+    // Find or create user in your DB
+    let user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          name,
+          email,
+          password: '', // No password for Google users
+          role: 'CUSTOMER', // Default role, or let user choose later
+        },
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.status(200).json({ message: 'Login successful', token, role: user.role });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ message: 'Invalid Google token' });
+  }
+});
+
+// ... (rest of your routes remain unchanged)
 
 router.post('/signup', async (req, res) => {
     const { name, email, password, role } = req.body;
@@ -142,6 +189,7 @@ router.patch('/user', authenticate, async (req, res) => {
 
 // Other routes (Sign-Up, Login, etc.)
 module.exports = router;
+
 
 
 
