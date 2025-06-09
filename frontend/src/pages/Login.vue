@@ -110,21 +110,47 @@ export default {
         }
       }
     },
-    async handleGoogleSignIn(response) {
-      try {
-        const res = await axios.post('http://localhost:5000/auth/google', {
-          credential: response.credential,
-        });
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('role', res.data.role);
-        this.authState.isLoggedIn = true;
-        this.authState.role = res.data.role;
-        alert('Login successful!');
-        this.$router.push('/');
-      } catch (error) {
-        this.errorMessage = 'Google sign-in failed. Please try again.';
+  async handleGoogleSignIn(response) {
+  try {
+    // First, try to sign in with Google
+    const res = await axios.post('http://localhost:5000/auth/google', {
+      credential: response.credential,
+    });
+
+    // If backend says role is needed, prompt the user
+    if (res.data.need_role) {
+      // Prompt for role (simple window.prompt, or use a modal for better UX)
+      let role = window.prompt('Sign up as CUSTOMER or OWNER? (type exactly)');
+      role = role && role.toUpperCase();
+      if (role !== 'CUSTOMER' && role !== 'OWNER') {
+        this.errorMessage = 'Invalid role selected.';
+        return;
       }
-    },
+      // Send the credential and role to backend to finish signup
+      const res2 = await axios.post('http://localhost:5000/auth/google', {
+        credential: response.credential,
+        role,
+      });
+      localStorage.setItem('token', res2.data.token);
+      localStorage.setItem('role', res2.data.role);
+      this.authState.isLoggedIn = true;
+      this.authState.role = res2.data.role;
+      alert('Login successful!');
+      this.$router.push('/');
+      return;
+    }
+
+    // Normal flow for existing users
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('role', res.data.role);
+    this.authState.isLoggedIn = true;
+    this.authState.role = res.data.role;
+    alert('Login successful!');
+    this.$router.push('/');
+  } catch (error) {
+    this.errorMessage = 'Google sign-in failed. Please try again.';
+  }
+}
   },
 };
 </script>

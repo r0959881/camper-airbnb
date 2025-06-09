@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
 
 // Google Sign-In login
 router.post('/google', async (req, res) => {
-  const { credential } = req.body;
+  const { credential, role } = req.body;
   try {
     const ticket = await client.verifyIdToken({
       idToken: credential,
@@ -71,20 +71,23 @@ router.post('/google', async (req, res) => {
     const email = payload.email;
     const name = payload.name;
 
-    // Find or create user in your DB
     let user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
+      // If no role provided, ask frontend to prompt for role
+      if (!role) {
+        return res.status(200).json({ need_role: true });
+      }
+      // Create user with selected role
       user = await prisma.user.create({
         data: {
           name,
           email,
           password: '', // No password for Google users
-          role: 'CUSTOMER', // Default role, or let user choose later
+          role,
         },
       });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { userId: user.id, role: user.role },
       process.env.JWT_SECRET,
