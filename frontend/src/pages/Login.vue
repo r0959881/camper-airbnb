@@ -135,8 +135,7 @@ export default {
       localStorage.setItem('role', res2.data.role);
       this.authState.isLoggedIn = true;
       this.authState.role = res2.data.role;
-      alert('Login successful!');
-      this.$router.push('/');
+     
       return;
     }
 
@@ -145,7 +144,7 @@ export default {
     localStorage.setItem('role', res.data.role);
     this.authState.isLoggedIn = true;
     this.authState.role = res.data.role;
-    alert('Login successful!');
+   
     this.$router.push('/');
   } catch (error) {
     this.errorMessage = 'Google sign-in failed. Please try again.';
